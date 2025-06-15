@@ -156,7 +156,7 @@ const ServiceDetails = ({ user }) => {
       });
       // Razorpay Integration
       const options = {
-        key: 'YOUR_RAZORPAY_KEY_ID', // Replace with your Razorpay Key ID
+        key: 'rzp_test_x1BNfcKz3XtHjz', // Replace with your Razorpay Key ID
         amount: service.price * 100, // Price in paise
         currency: 'INR',
         name: 'Local Service Finder',
