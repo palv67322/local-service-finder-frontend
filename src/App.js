@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import axios from 'axios';
 
 const Signup = ({ setUser }) => {
@@ -156,12 +156,12 @@ const ServiceDetails = ({ user }) => {
       });
       // Razorpay Integration
       const options = {
-        key: 'YOUR_RAZORPAY_KEY_ID', // Get from Razorpay Dashboard
+        key: 'YOUR_RAZORPAY_KEY_ID', // Replace with your Razorpay Key ID
         amount: service.price * 100, // Price in paise
         currency: 'INR',
         name: 'Local Service Finder',
         description: `Booking for ${service.title}`,
-        order_id: response.data.orderId, // From backend response
+        order_id: response.data.orderId,
         handler: async (response) => {
           await axios.post('https://local-service-finder-backend.onrender.com/api/payments/verify', {
             razorpay_order_id: response.razorpay_order_id,
@@ -423,20 +423,12 @@ const App = () => {
             </div>
           </div>
         </nav>
-        <Switch>
-          <Route path="/signup">
-            <Signup setUser={setUser} />
-          </Route>
-          <Route path="/login">
-            <Login setUser={setUser} />
-          </Route>
-          <Route path="/service/:id">
-            <ServiceDetails user={user} />
-          </Route>
-          <Route path="/provider">
-            <ProviderDashboard user={user} />
-          </Route>
-          <Route path="/">
+        <Routes>
+          <Route path="/signup" element={<Signup setUser={setUser} />} />
+          <Route path="/login" element={<Login setUser={setUser} />} />
+          <Route path="/service/:id" element={<ServiceDetails user={user} />} />
+          <Route path="/provider" element={<ProviderDashboard user={user} />} />
+          <Route path="/" element={
             <div className="container mx-auto p-4">
               <div className="bg-white p-6 rounded shadow mb-6">
                 <h2 className="text-xl font-bold mb-4">{translations[language].search}</h2>
@@ -483,8 +475,8 @@ const App = () => {
                 ))}
               </div>
             </div>
-          </Route>
-        </Switch>
+          } />
+        </Routes>
       </div>
     </Router>
   );
